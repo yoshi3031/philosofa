@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:08:50 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/21 15:52:56 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:15:22 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	wait_all_threads(t_table *table)
 {
 	while (!get_bool(&table->table_mutex, &table->all_threads_ready))
-		;
+		usleep(100);
 }
 
 bool	all_threads_running(t_mtx *mutex, long *threads, long philo_nbr)

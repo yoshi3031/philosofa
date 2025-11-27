@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:20:31 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/21 16:29:00 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:15:41 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*monitor_dinner(void *data)
 	table = (t_table *)data;
 	while (!all_threads_running(&table->table_mutex,
 			&table->threads_running_nbr, table->philo_nbr))
-		;
+		usleep(100);
 	while (!simulation_finished(table))
 	{
 		i = -1;
