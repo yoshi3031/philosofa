@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:07:59 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/27 15:52:44 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:05:15 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static void	eat(t_philo *philo)
 	safe_mutex_handle(&philo->second_fork->fork, UNLOCK);
 }
 
-void	*dinner_simulation(void *date)
+void	*dinner_simulation(void *data)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)date;
+	philo = (t_philo *)data;
 	wait_all_threads(philo->table);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
 	increase_long(&philo->table->table_mutex,
