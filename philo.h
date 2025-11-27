@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:09:24 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/21 16:43:42 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:41:06 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #define C "\033[1;36m"
 #define W "\033[1;37m"
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 typedef enum e_status
 {

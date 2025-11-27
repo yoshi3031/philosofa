@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:07:59 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/21 16:34:06 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:52:44 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 static void	thinking(t_philo *philo)
 {
 	write_status(THINKING, philo, DEBUG_MODE);
+	if (philo->table->philo_nbr % 2 != 0)
+	{
+		usleep(1000);
+	}
 }
 
 void	*lone_philo(void *arg)
@@ -58,6 +62,8 @@ void	*dinner_simulation(void *date)
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
+	if (philo->id % 2 == 0)
+		usleep(15000);
 	while (!simulation_finished(philo->table))
 	{
 		if (philo->full)
