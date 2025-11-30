@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:07:59 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/28 17:29:08 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:22:04 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void	thinking(t_philo *philo)
 static void	eat(t_philo *philo)
 {
 	safe_mutex_handle(&philo->first_fork->fork, LOCK);
+	write_status(TAKE_FIRST_FORK, philo);
 	safe_mutex_handle(&philo->second_fork->fork, LOCK);
+	write_status(TAKE_SECOND_FORK, philo);
+	write_status(EATING, philo);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
 	philo->meals_counter++;
 	precise_usleep(philo->table->time_to_eat, philo->table);
@@ -31,7 +34,6 @@ static void	eat(t_philo *philo)
 	safe_mutex_handle(&philo->first_fork->fork, UNLOCK);
 	safe_mutex_handle(&philo->second_fork->fork, UNLOCK);
 }
-
 void	*dinner_simulation(void *data)
 {
 	t_philo	*philo;
@@ -48,7 +50,9 @@ void	*dinner_simulation(void *data)
 		if (philo->full)
 			break ;
 		eat(philo);
+		write_status(SLEEPING, philo);
 		precise_usleep(philo->table->time_to_sleep, philo->table);
+		write_status(THINKING, philo);
 		thinking(philo);
 	}
 	return (NULL);

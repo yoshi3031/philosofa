@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:08:57 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/28 17:06:19 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/11/30 13:53:41 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ void	*lone_philo(void *arg)
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
+	safe_mutex_handle(&philo->first_fork->fork, LOCK);
+	write_status(TAKE_FIRST_FORK, philo);
 	while (!simulation_finished(philo->table))
 		usleep(200);
+	safe_mutex_handle(&philo->first_fork->fork, UNLOCK);
 	return (NULL);
 }
-
 void	precise_usleep(long usec, t_table *table)
 {
 	long	start;
