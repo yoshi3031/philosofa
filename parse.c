@@ -6,7 +6,7 @@
 /*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:08:30 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/12/01 11:29:31 by yotakagi         ###   ########.fr       */
+/*   Updated: 2025/12/01 12:16:52 by yotakagi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,29 +63,20 @@ static long	ft_atol(const char *str, int *error)
 
 int	parse_input(t_table *table, char **av)
 {
-	int	error;
+	int	err;
 
-	error = 0;
-	table->philo_nbr = ft_atol(av[1], &error);
-	table->time_to_die = ft_atol(av[2], &error);
-	table->time_to_eat = ft_atol(av[3], &error);
-	table->time_to_sleep = ft_atol(av[4], &error);
+	err = 0;
+	table->philo_nbr = ft_atol(av[1], &err);
+	table->time_to_die = ft_atol(av[2], &err) * 1000;
+	table->time_to_eat = ft_atol(av[3], &err) * 1000;
+	table->time_to_sleep = ft_atol(av[4], &err) * 1000;
+	table->nbr_limit_meals = -1;
 	if (av[5])
-		table->nbr_limit_meals = ft_atol(av[5], &error);
-	else
-		table->nbr_limit_meals = -1;
-	if (error)
+		table->nbr_limit_meals = ft_atol(av[5], &err);
+	if (err)
 		return (1);
-	if (table->time_to_die > INT_MAX / 1000 || table->time_to_eat > INT_MAX
-		/ 1000 || table->time_to_sleep > INT_MAX / 1000)
-		return (print_error("The value is too big"));
-	table->time_to_die *= 1e3;
-	table->time_to_eat *= 1e3;
-	table->time_to_sleep *= 1e3;
-	if (table->philo_nbr <= 0)
-		return (print_error("Wrong input: number_of_philosophers must be > 0"));
-	if (table->time_to_die < 6e4 || table->time_to_eat < 6e4
-		|| table->time_to_sleep < 6e4)
-		return (print_error("Use timestamps bigger than 60ms"));
+	if (table->philo_nbr <= 0 || table->time_to_die < 60000
+		|| table->time_to_eat < 60000 || table->time_to_sleep < 60000)
+		return (print_error("Invalid input arguments"));
 	return (0);
 }

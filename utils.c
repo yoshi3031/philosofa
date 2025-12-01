@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/21 15:08:57 by yotakagi          #+#    #+#             */
-/*   Updated: 2025/11/30 13:53:41 by yotakagi         ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* utils.c                                            :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: yotakagi <yotakagi@student.42.fr>          +#+  +:+       +#+        */
+/* +#+#+#+#+#+   +#+           */
+/* Created: 2025/11/21 15:08:57 by yotakagi          #+#    #+#             */
+/* Updated: 2025/12/01 12:00:00 by yotakagi         ###   ########.fr       */
+/* */
 /* ************************************************************************** */
 
 #include "philo.h"
@@ -16,13 +16,14 @@ long	gettime(t_time_code time_code)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);
+	if (gettimeofday(&tv, NULL))
+		return (print_error("gettimeofday failed"));
 	if (SECOND == time_code)
-		return (tv.tv_sec + (tv.tv_usec / 1e6));
+		return (tv.tv_sec + (tv.tv_usec / 1000000));
 	else if (MILLISECOND == time_code)
-		return ((tv.tv_sec * 1e3) + (tv.tv_usec / 1e3));
+		return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 	else if (MICROSECOND == time_code)
-		return ((tv.tv_sec * 1e6) + tv.tv_usec);
+		return ((tv.tv_sec * 1000000) + tv.tv_usec);
 	else
 	{
 		print_error("Wrong time_code for gettime");
@@ -47,6 +48,7 @@ void	*lone_philo(void *arg)
 	safe_mutex_handle(&philo->first_fork->fork, UNLOCK);
 	return (NULL);
 }
+
 void	precise_usleep(long usec, t_table *table)
 {
 	long	start;
@@ -60,11 +62,13 @@ void	precise_usleep(long usec, t_table *table)
 			break ;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = usec - elapsed;
-		if (rem > 1e3)
-			usleep(rem / 2);
+		if (rem > 1000)
+			usleep(1000);
 		else
+		{
 			while (gettime(MICROSECOND) - start < usec)
 				usleep(100);
+		}
 	}
 }
 
