@@ -94,10 +94,10 @@ graph TD
     Init --> P2[Philo 2 Thread]
     Init --> P3[Philo 3 ... Thread]
     
-    subgraph Shared Memory [Heap / Mutexes]
-        Forks[Forks (Mutex array)]
-        Data[Shared Data (End Simulation Flag)]
-        Print[Write Mutex]
+    subgraph SharedMemory ["Shared Memory (Heap / Mutexes)"]
+        Forks["Forks (Mutex array)"]
+        Data["Shared Data (End Simulation Flag)"]
+        Print["Write Mutex"]
     end
 
     P1 <--> Forks
